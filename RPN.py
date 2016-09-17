@@ -1,7 +1,7 @@
 from helper import PRIORITY_OPERATORS, is_operator, OPENED_BRACKET, CLOSED_BRACKET, MAP_OPERATORS
 
 
-def infix_to_postfix(expression):
+def _infix_to_postfix(expression):
 
     def _bracket_counter_comparison():
         if opened_brackets_counter != closed_brackets_counter:
@@ -30,8 +30,7 @@ def infix_to_postfix(expression):
                             stack.append(stack_operators.pop())
                 stack_operators.append(token)
         else:
-            if not str(token).isspace():
-                stack.append(token)
+            stack.append(token)
 
     while len(stack_operators) > 0:  # in func ??
         stack.append(stack_operators.pop())
@@ -41,7 +40,7 @@ def infix_to_postfix(expression):
     return stack
 
 
-def run(postfix_expression):
+def _rpn(postfix_expression):
     length = len(postfix_expression)
     i = 0
 
@@ -61,10 +60,9 @@ def run(postfix_expression):
                 break
             continue
         i += 1
-    return postfix_expression
+    return postfix_expression[0]
 
 
-r = infix_to_postfix([7, '*', 3, '+', '(', 4, '-', 2, '*', 5, ')'])
-e = infix_to_postfix(['(', 8, '+', 2, '*', 5, ')', '/', '(', 1, '+', 3, '*', 2, '-', 4, ')'])
-print(run(r))
-print(run(e))
+def run(expression):
+    assert len(expression) > 0, "There no expression!"
+    return _rpn(_infix_to_postfix(expression))

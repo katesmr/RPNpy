@@ -16,7 +16,7 @@ def split_expression(string):
         try:
             expression.append(float(supposed_operand))
         except ValueError:
-            raise Exception("It is not number")
+            raise Exception("'{}' is not operand".format(supposed_operand))
         return index
 
     def _process_operator(index):
