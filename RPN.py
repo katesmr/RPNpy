@@ -1,28 +1,24 @@
-from helper import PRIORITY_OPERATORS, is_operator, OPENED_BRACKET, CLOSED_BRACKET, MAP_OPERATORS
+from helper import PRIORITY_OPERATORS, is_operator, OPENED_BRACKET, CLOSED_BRACKET, MAP_OPERATORS, TRIGONOMETRICS
 
 
 def _infix_to_postfix(expression):
 
-    def _bracket_counter_comparison():
-        if opened_brackets_counter != closed_brackets_counter:
-            raise Exception("Count of opened brackets not equal count of closed brackets!")
-
     stack_operators = []
     stack = []
-    opened_brackets_counter = 0
-    closed_brackets_counter = 0
 
     for token in expression:
-        if is_operator(token):
+        if type(token) is list:  # sub expression
+            func = token[0]
+            sub_expression = token[1]
+            stack.append(TRIGONOMETRICS[func](run(sub_expression)))
+        elif is_operator(token):
             if CLOSED_BRACKET == token:
                 tmp = stack_operators.pop()
-                closed_brackets_counter += 1
                 while OPENED_BRACKET != tmp:
                     stack.append(tmp)
                     tmp = stack_operators.pop()
             elif OPENED_BRACKET == token:
                 stack_operators.append(token)
-                opened_brackets_counter += 1
             else:
                 if len(stack_operators):
                     if PRIORITY_OPERATORS[token] <= PRIORITY_OPERATORS[stack_operators[-1]]:
@@ -32,10 +28,8 @@ def _infix_to_postfix(expression):
         else:
             stack.append(token)
 
-    while len(stack_operators) > 0:  # in func ??
+    while len(stack_operators) > 0:
         stack.append(stack_operators.pop())
-
-    _bracket_counter_comparison()
 
     return stack
 
@@ -66,3 +60,4 @@ def _rpn(postfix_expression):
 def run(expression):
     assert len(expression) > 0, "There no expression!"
     return _rpn(_infix_to_postfix(expression))
+
