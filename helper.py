@@ -4,7 +4,6 @@ import math
 def is_operator(ch):
     return ch in PRIORITY_OPERATORS
 
-
 OPENED_BRACKET = '('
 CLOSED_BRACKET = ')'
 EXPONENTIATION = '^'

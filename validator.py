@@ -18,7 +18,7 @@ def split_expression(string):
     def _process_operand(index):
         supposed_operand = string[index]  # assume that the first char is always exists
         index += 1
-        while index < length and not is_stop_parsing_operand(string[index]):
+        while index < length and (not string[index].isspace()) and string[index].isdigit():
             supposed_operand += string[index]
             index += 1
         try:
@@ -41,11 +41,15 @@ def split_expression(string):
 
     def _process_operator(index):
         supposed_operator = string[index]  # assume that length of operator should be equal to one
+        index += 1
+        while index < length and not string[index].isspace() and not string[index].isdigit():
+            supposed_operator += string[index]
+            index += 1
         if is_operator(supposed_operator):
             expression.append(supposed_operator)
         else:
             raise Exception("'{}' is not operator".format(supposed_operator))
-        return index + 1
+        return index
 
     def _skip_spaces(index):
         while index < length and string[index].isspace():

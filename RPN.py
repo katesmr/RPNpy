@@ -60,4 +60,3 @@ def _rpn(postfix_expression):
 def run(expression):
     assert len(expression) > 0, "There no expression!"
     return _rpn(_infix_to_postfix(expression))
-
